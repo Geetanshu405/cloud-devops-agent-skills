@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Secrets and credentials (never commit these)
+.env
+.env.*
+*.pem
+*.key
+.aws/
+credentials
+*.tfvars
+
+# Local scratch and logs
+*.log
+tmp/
+scratch/

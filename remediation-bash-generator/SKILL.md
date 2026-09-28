@@ -46,7 +46,7 @@ aws <service> <action> \
 echo "<one completion message>"
 ```
 
-- **`set -e` only when the script has multiple sequential, dependent steps** (e.g. a pre-check, then a temp-file write, then an `aws` call that depends on both succeeding). A single-call remediation stays bare `#!/bin/bash` with no strict-mode flags, matching Examples 1–3 and 5. Never use `set -euo pipefail` — plain `set -e` is the observed pattern.
+- **`set -e` only when the script has multiple sequential, dependent steps** (e.g. a pre-check, then a temp-file write, then an `aws` call that depends on both succeeding). A single-call remediation stays bare `#!/bin/bash` with no strict-mode flags, matching Examples 1, 2, and 5. Never use `set -euo pipefail` — plain `set -e` is the observed pattern.
 - Validate only the parameters this specific remediation uses. Never validate an unused variable.
 - Use platform-injected variables directly (`$ACCOUNT_ID`, `$BUCKET_NAME`, `$SECURITY_GROUP_ID`, etc.). Never emit placeholders (`<bucket-name>`, `<region>`) and never ask the user to edit the script.
 - Either validation-message style is fine and should be picked to fit the call: `"Usage: $0 <X> <Y>"` for positional-feeling multi-param scripts, or `"Required parameter X is missing."` for a single named parameter. Don't force one style everywhere — the reference scripts use both.
@@ -302,7 +302,7 @@ aws s3api put-bucket-policy \
 echo "Secure Transport policy applied successfully."
 ```
 
-**Why this differs from Examples 1–3 and 5:** `put-bucket-policy` replaces the whole document, so this is the full-replacement exception above — check first, bail to manual remediation if something's already there, only create when the slate is clean. The pre-check plus heredoc plus final call are three dependent steps, which is why `set -e` is warranted here but not in the simpler examples.
+**Why this differs from Examples 1, 2, and 5:** `put-bucket-policy` replaces the whole document, so this is the full-replacement exception above — check first, bail to manual remediation if something's already there, only create when the slate is clean. The pre-check plus heredoc plus final call are three dependent steps, which is why `set -e` is warranted here but not in the simpler examples.
 
 ### Example 7 — Consume a pre-provisioned resource, inline reused literals
 
